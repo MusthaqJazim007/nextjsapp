@@ -35,11 +35,14 @@ export default function Home() {
     background: 'rgba(255, 255, 255, 0.1)',
     backdropFilter: 'blur(10px)',
     borderRadius: '15px',
-    padding: '40px',
+    padding: 'clamp(20px, 5vw, 40px)',
     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
     maxWidth: '500px',
     width: '100%',
+    boxSizing: 'border-box',
+    overflowWrap: 'break-word',
+    wordBreak: 'break-word',
   };
 
   const buttonStyle = {
@@ -63,8 +66,8 @@ export default function Home() {
     return (
       <div style={containerStyle}>
       <div style={cardStyle}>
-        <h1 style={{ marginBottom: '10px', fontSize: '2.5rem', wordBreak: 'break-word', overflowWrap: 'break-word' }}>Welcome, {user.email}</h1>
-        <p style={{ marginBottom: '30px', fontSize: '1.2rem' }}>You are signed in.</p>
+        <h1 style={{ marginBottom: '10px', fontSize: 'clamp(1rem, 3vw, 2rem)', overflowWrap: 'break-word', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Hey, {user.email}! </h1>
+        <p style={{ marginBottom: '30px', fontSize: 'clamp(1rem, 3vw, 1.2rem)', overflowWrap: 'break-word' }}>You're successfully logged in.</p>
         <Link href="/profile">
         <button
           style={{ ...buttonStyle, marginBottom: '10px' }}
@@ -90,8 +93,8 @@ export default function Home() {
   return (
     <div style={containerStyle}>
       <div style={cardStyle}>
-        <h1 style={{ marginBottom: '10px', fontSize: '2.5rem' }}>Welcome to the App</h1>
-        <p style={{ marginBottom: '30px', fontSize: '1.2rem' }}>Please sign in or sign up to continue.</p>
+        <h1 style={{ marginBottom: '10px', fontSize: 'clamp(1.5rem, 5vw, 2.5rem)', overflowWrap: 'break-word' }}>Welcome to the App</h1>
+        <p style={{ marginBottom: '30px', fontSize: 'clamp(1rem, 3vw, 1.2rem)', overflowWrap: 'break-word' }}>Please sign in or sign up to continue.</p>
         <Link href="/auth">
           <button
             style={buttonStyle}

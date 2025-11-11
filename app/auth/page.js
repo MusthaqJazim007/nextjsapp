@@ -10,6 +10,7 @@ export default function AuthPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const router = useRouter();
@@ -34,8 +35,13 @@ export default function AuthPage() {
   };
 
   const handleForgotPassword = async () => {
+    setIsForgotPassword(true);
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
     if (!email) {
-      setError('Please enter your email address first.');
+      setError('Please enter your email address.');
       return;
     }
     setError('');
@@ -131,6 +137,53 @@ export default function AuthPage() {
     textDecoration: 'underline',
   };
 
+  if (isForgotPassword) {
+    return (
+      <div style={containerStyle}>
+        <div style={cardStyle}>
+          <h2 style={{ marginBottom: '20px', fontSize: '2rem' }}>Reset Password</h2>
+          <form onSubmit={handleResetPassword}>
+            <div>
+              <label style={labelStyle}>Email:</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={inputStyle}
+                placeholder="Enter your email"
+              />
+            </div>
+            {error && <p style={{ color: '#ff6b6b', marginBottom: '15px' }}>{error}</p>}
+            {success && <p style={{ color: '#4CAF50', marginBottom: '15px' }}>{success}</p>}
+            <button
+              type="submit"
+              style={buttonStyle}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#ff5252'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#ff6b6b'}
+            >
+              Reset Password
+            </button>
+          </form>
+          <button
+            onClick={handleGoogleSignIn}
+            style={googleButtonStyle}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#3367d6'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#4285f4'}
+          >
+            Sign in with Google
+          </button>
+          <button
+            onClick={() => setIsForgotPassword(false)}
+            style={toggleButtonStyle}
+          >
+            Back to Sign In
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={containerStyle}>
       <div style={cardStyle}>
@@ -161,25 +214,8 @@ export default function AuthPage() {
           {error && <p style={{ color: '#ff6b6b', marginBottom: '15px' }}>{error}</p>}
           {success && <p style={{ color: '#4CAF50', marginBottom: '15px' }}>{success}</p>}
           <button
-            type={isSignUp ? 'submit' : 'button'}
+            type="submit"
             style={buttonStyle}
-            onClick={async (e) => {
-              if (!isSignUp) {
-                e.preventDefault();
-                setError('');
-                setSuccess('');
-                if (!email) {
-                  setError('Please enter your email address first.');
-                  return;
-                }
-                try {
-                  await sendPasswordResetEmail(auth, email);
-                  setSuccess('Password reset email sent! Check your inbox.');
-                } catch (error) {
-                  setError(error.message);
-                }
-              }
-            }}
             onMouseOver={(e) => e.target.style.backgroundColor = '#ff5252'}
             onMouseOut={(e) => e.target.style.backgroundColor = '#ff6b6b'}
           >
@@ -211,7 +247,7 @@ export default function AuthPage() {
         <br />
         <Link href="/">
           <button
-            style={{ ...toggleButtonStyle,color: '#ba3021ff', marginTop: '10px' }}
+            style={{ ...toggleButtonStyle,color: '#f21e3eff', marginTop: '10px' }}
           >
             Back to Home
           </button>
